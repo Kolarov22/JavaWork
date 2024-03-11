@@ -1,28 +1,14 @@
 # SDM Lab sockets
 
 
-## Ex1
+1. Write a program MyServer and a program MyClient communicating through TCP sockets. Both programs use the same port number and the customer uses the address "localhost" to connect to the server that is on the same machine. The server is always ready to connect to a client. The server is notified when the connection with the client is established and prints this message: "Connection accepted:" + socketName. 
 
-Java provides a client-side socket class Socket and a server-side class ServerSocket. A server application will create an instance of a ServerSocket which will listen on a particular port. When the server accepts an incoming request a Socket object is created to encapsulate this connection and the client and the server will be able to communicate using Input and OutputStreams. On the client-side the client will create a Socket object that will open a connection to the server. The server application's address and port number must be known.
-Let's implement an application where a server listens on port 2999. When a client initiates the connection the server will ask the birthdate, the client will answer in a yyyy-MM-dd format and the server will return “happy birthday” if the user celebrates his birthday today.
+While connection is up the server reads line by line the data sent from the client, prints them on console and sends them to the client. The end of the program is notified by the client by sending "END" message. 
 
-For the first exercise run TCPServerSimple and then TCPClientSimple in ex1 package.  
+Test the program with the following scenario:
 
-## Ex2
+When the client connects, it writes "socket =" + socketName and then sends 10 lines of text "I am " + rowNumber. After each send operation the client reads the response from the server and prints it (so each message should be printed twice - once in the server, once in the client). At the end send "END" to end the transmission. 
 
-In the previous example the program allowed only one “conversation” between a server and a client at a time. The server exposed a single socket that was tied to a client. When the exchange of data finished, the server can expose a new socket.
-We want to create a real server that exposes resources to multiple clients. This means that our server can receive multiple connections and handle the requests in separate threads. 
 
-For the second exercise run TCPServerMulti and then run more TCPClientSimple in ex2 package.  
 
-## Ex3
-
-In TCP the nodes establish a connection, transmit the data, and then close the connection. All data sent over the channel is received in the same order in which it was sent. This is guaranteed by the channel. However, in UDP independent packets of information are sent called datagrams.  A datagram is an independent, self-contained message sent over the network whose arrival, arrival time, and content are not guaranteed.
-Both the server and the client use DatagramSocket classes to communicate. In this case a server needs only one DatagramSocket that can send and receive packages to and from different destinations. Through DatagramSockets , DatagramPackage objects  are sent. Since we do not have a connection we must specify the address and the port of the destination for each package we send. Also, the server will require a package from the client to find out its address and port.
-Let`s implement the same application as above this time using UDP and note the differences.
-
-## Ex4
-
-In previous TCP examples the communication was deterministic, each endpoint knew when to listen and when to write. Also while listening the thread was blocked. 
-In an interactive application we cannot know in advance who will communicate, so we cannot be blocked listening on the IOStream while also being blocked on listening to the Scanner.
-To solve this, each endpoint will have two threads - one listening from input from the network and one listening from input from the keyboard. 
+2. Partially reusing the code of the previous exercise, write a program for a client / server system that delivers services to more customers at once. Customers are simulated by an object of  a class MultiClients that uses thread‐objects belonging to another class MonoClient that access the server and behave as in the previous problem.
